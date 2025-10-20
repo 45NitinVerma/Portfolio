@@ -5,44 +5,45 @@ import Modal from "./ui/Modal";
 const projects = [
 	{
 		id: 1,
+		title: "Resume Builder",
+		description:
+			"A modern web application that allows users to create, edit, and manage professional resumes with real-time updates, AI-powered text parsing, and cloud-based image storage.",
+		image: "/projects/ResumeBuilder.png",
+		tags: ["MERN", "JWT/BcryptJS", "ImageKit", "TailwindCSS"],
+		demoUrl: "https://resume-builder-coral-mu.vercel.app/",
+		githubUrl: "https://github.com/45NitinVerma/ResumeBuilder",
+	},
+	{
+		id: 2,
 		title: "Taskify",
 		description:
 			"A task management app to organize your to-dos efficiently.",
 		image: "/projects/Taskify.png",
-		tags: ["React", "Node.js", "MongoDB"],
+		tags: ["MERN", "JWT/BcryptJS", "TailwindCSS"],
 		demoUrl: "https://taskify-eight-livid.vercel.app/",
 		githubUrl: "https://github.com/45NitinVerma/Taskify",
 	},
 	{
-		id: 2,
+		id: 3,
 		title: "QuickChat",
 		description:
 			"A chat app where users can connect and chat in realtime.",
 		image: "/projects/QuickChat.png",
-		tags: ["React", "Node.js", "MongoDB", "Socket.io", "Express.js"],
+		tags: ["MERN", "JWT/BcryptJS", "Socket.io", "Cloudinary", "TailwindCSS"],
 		demoUrl: "https://quick-chat-jet.vercel.app/",
 		githubUrl: "https://github.com/45NitinVerma/QuickChat",
 	},
 	{
-		id: 3,
+		id: 4,
 		title: "RealTime Face Mask Detection",
 		description:
 			"A web app that detects face masks in real-time using webcam.",
-		image: "/projects",
+		image: "/projects/RTMD.png",
 		tags: ["Python", "OpenCV", "TensorFlow"],
 		demoUrl: "#",
 		githubUrl: "#",
 	},
-	{
-		id: 4,
-		title: "GoFood",
-		description:
-			"A food delivery app with real-time tracking and multiple payment options.",
-		image: "/projects",
-		tags: ["React", "Node.js", "Stripe API"],
-		demoUrl: "#",
-		githubUrl: "#",
-	},
+	
 ];
 
 const ProjectsSection = () => {
@@ -83,13 +84,13 @@ const ProjectsSection = () => {
 								if (e.key === "Enter" || e.key === " ")
 									openModal(project);
 							}}
-							className="group bg-card rounded-lg overflow-hidden shadow-x card-hover cursor-pointer"
+							className="group bg-dark  rounded-lg overflow-hidden shadow-x card-hover cursor-pointer"
 						>
 							<div className="h-48 overflow-hidden p-5">
 								<img
 									src={project.image}
 									alt={project.title}
-									className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-lg"
+									className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-xs border border-blue-500"
 								/>
 							</div>
 
