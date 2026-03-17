@@ -1,288 +1,182 @@
 import React, { useState, useRef, useEffect } from "react";
-import reactLogo from "../assets/icons/react.svg";
-import jsLogo from "../assets/icons/javascript.svg";
-import htmlLogo from "../assets/icons/htmlcss.svg";
-import tailwindLogo from "../assets/icons/tailwindcss.svg";
-import nodeLogo from "../assets/icons/nodejs.svg";
-import expressLogo from "../assets/icons/express.svg";
-import mongoLogo from "../assets/icons/mongodb.svg";
-import mysqlLogo from "../assets/icons/mysql.svg";
-import ghLogo from "../assets/icons/github.svg";
-import vscodeLogo from "../assets/icons/vscode.svg";
-// cn removed; using plain className strings and template literals
+import {
+  SiReact,
+  SiJavascript,
+  SiHtml5,
+  SiTailwindcss,
+  SiNodedotjs,
+  SiExpress,
+  SiMongodb,
+  SiMysql,
+  SiGithub,
+  
+} from "react-icons/si";
+import { DiVisualstudio } from "react-icons/di";
+import { motion } from "framer-motion";
+
+const iconMap = {
+  react: SiReact,
+  javascript: SiJavascript,
+  htmlcss: SiHtml5,
+  tailwindcss: SiTailwindcss,
+  nodejs: SiNodedotjs,
+  express: SiExpress,
+  mongodb: SiMongodb,
+  mysql: SiMysql,
+  "git/github": SiGithub,
+  vscode: DiVisualstudio,
+};
 
 const skills = [
-	// Frontend
-	{ name: "HTML/CSS", level: 90, category: "frontend" },
-	{ name: "JavaScript", level: 80, category: "frontend" },
-	{ name: "React", level: 80, category: "frontend" },
-	{ name: "Tailwind CSS", level: 80, category: "frontend" },
-
-	// Backend
-	{ name: "Node.js", level: 90, category: "backend" },
-	{ name: "Express", level: 85, category: "backend" },
-	{ name: "MongoDB", level: 80, category: "backend" },
-	{ name: "MySQL", level: 75, category: "backend" },
-
-	// Tools
-	{ name: "Git/GitHub", level: 90, category: "tools" },
-	{ name: "VS Code", level: 95, category: "tools" },
+  { name: "HTML/CSS", level: 90, category: "frontend" },
+  { name: "JavaScript", level: 85, category: "frontend" },
+  { name: "React", level: 80, category: "frontend" },
+  { name: "Tailwind CSS", level: 80, category: "frontend" },
+  { name: "Node.js", level: 90, category: "backend" },
+  { name: "Express", level: 85, category: "backend" },
+  { name: "MongoDB", level: 80, category: "backend" },
+  { name: "MySQL", level: 75, category: "backend" },
+  { name: "Git/GitHub", level: 90, category: "tools" },
+  { name: "VS Code", level: 95, category: "tools" },
 ];
 
 const categories = ["all", "frontend", "backend", "tools"];
 
 const SkillsSection = () => {
-	const [activeCategory, setActiveCategory] = useState("all");
+  const [activeCategory, setActiveCategory] = useState("all");
+  const filtered = skills.filter(
+    (s) => activeCategory === "all" || s.category === activeCategory
+  );
 
-	const filteredSkills = skills.filter(
-		(skill) => activeCategory === "all" || skill.category === activeCategory
-	);
+  return (
+    <section id="skills" className="py-24 px-4 relative">
+      <div className="container mx-auto max-w-6xl">
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl md:text-4xl font-bold mb-10 text-center"
+        >
+          My <span className="text-primary">Skills</span>
+        </motion.h2>
 
-	// keyboard navigation for category buttons (Left/Right/Home/End)
-	const categoriesRef = useRef(null);
+        {/* Filter Buttons */}
+        <div
+          className="flex flex-wrap justify-center gap-4 mb-12"
+          role="tablist"
+        >
+          {categories.map((c) => (
+            <button
+              key={c}
+              onClick={() => setActiveCategory(c)}
+              aria-pressed={activeCategory === c}
+              className={`category-button capitalize px-5 py-2 rounded-full transition-all duration-300 ${
+                activeCategory === c
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary/70 hover:bg-secondary text-foreground"
+              }`}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
 
-	const handleCategoryKeyDown = (e) => {
-		const currentIndex = categories.indexOf(activeCategory);
-		let nextIndex = -1;
+        {/* Skill Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {filtered.map((skill, idx) => (
+            <SkillCard key={skill.name} skill={skill} idx={idx} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
-		if (e.key === "ArrowRight")
-			nextIndex = Math.min(categories.length - 1, currentIndex + 1);
-		else if (e.key === "ArrowLeft")
-			nextIndex = Math.max(0, currentIndex - 1);
-		else if (e.key === "Home") nextIndex = 0;
-		else if (e.key === "End") nextIndex = categories.length - 1;
+const SkillCard = ({ skill, idx }) => {
+  const [visible, setVisible] = useState(false);
+  const [percent, setPercent] = useState(0);
+  const ref = useRef(null);
 
-		if (nextIndex >= 0) {
-			e.preventDefault();
-			setActiveCategory(categories[nextIndex]);
-			// move focus to the new button
-			const buttons = categoriesRef.current?.querySelectorAll("button");
-			if (buttons && buttons[nextIndex]) buttons[nextIndex].focus();
-		}
-	};
+  const Icon =
+    iconMap[skill.name.toLowerCase().replace(/[^a-z0-9]/g, "")] ?? SiReact;
 
-	// Skill card component: handles count-up and progress fill when visible
-	function SkillCard({ skill, idx }) {
-		const [display, setDisplay] = useState(0);
-		const [fill, setFill] = useState(false);
-		const nodeRef = useRef(null);
-		const startedRef = useRef(false);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
 
-		useEffect(() => {
-			const node = nodeRef.current;
-			if (!node) return;
+  useEffect(() => {
+    if (visible) {
+      let start = 0;
+      const duration = 1000;
+      const startTime = performance.now();
+      const animate = (now) => {
+        const elapsed = now - startTime;
+        const t = Math.min(1, elapsed / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        setPercent(Math.floor(skill.level * eased));
+        if (t < 1) requestAnimationFrame(animate);
+      };
+      requestAnimationFrame(animate);
+    }
+  }, [visible, skill.level]);
 
-			const observer = new IntersectionObserver(
-				(entries) => {
-					entries.forEach((entry) => {
-						if (entry.isIntersecting && !startedRef.current) {
-							startedRef.current = true;
-							setFill(true);
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.95, y: 20 }}
+      whileInView={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ delay: idx * 0.05, duration: 0.6, ease: "easeOut" }}
+      className="group relative bg-card backdrop-blur-md rounded-2xl border border-blue-500/20 hover:border-blue-400/50 
+                 shadow-lg hover:shadow-blue-500/20 p-6 text-center transition-all duration-500 card-hover animate-float"
+    >
+      {/* Circular Progress */}
+      <div className="relative mx-auto w-24 h-24 mb-4">
+        <svg className="w-full h-full rotate-[-90deg]" viewBox="0 0 100 100">
+          <circle
+            cx="50"
+            cy="50"
+            r="45"
+            stroke="hsl(var(--border))"
+            strokeWidth="6"
+            fill="none"
+          />
+          <circle
+            cx="50"
+            cy="50"
+            r="45"
+            stroke="hsl(var(--primary))"
+            strokeWidth="6"
+            fill="none"
+            strokeDasharray={`${(percent / 100) * 283} 283`}
+            strokeLinecap="round"
+            className="transition-all duration-700"
+          />
+        </svg>
+        <div className="absolute inset-0 grid place-items-center">
+          <Icon className="text-3xl text-primary" />
+        </div>
+      </div>
 
-							const duration = 900; // ms
-							const start = performance.now();
-							const from = 0;
-							const to = skill.level;
+      <h3 className="font-semibold text-lg mb-1">{skill.name}</h3>
+      <p className="text-sm text-muted-foreground capitalize mb-3">
+        {skill.category}
+      </p>
 
-							function step(now) {
-								const elapsed = now - start;
-								const t = Math.min(1, elapsed / duration);
-								const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
-								setDisplay(
-									Math.round(from + (to - from) * eased)
-								);
-								if (t < 1) requestAnimationFrame(step);
-							}
+      <span className="text-primary font-medium text-lg">{percent}%</span>
 
-							requestAnimationFrame(step);
-						}
-					});
-				},
-				{ threshold: 0.25 }
-			);
-
-			observer.observe(node);
-			return () => observer.disconnect();
-		}, [skill.level]);
-
-		const initials = skill.name
-			.split(/[^A-Za-z0-9]+/)
-			.map((s) => s[0])
-			.slice(0, 2)
-			.join("")
-			.toUpperCase();
-
-		// icon mapping (inline SVGs for small footprint). Normalizes name for matching.
-		const normalize = (n) => n.toLowerCase().replace(/[^a-z0-9]/g, "");
-		const iconKey = normalize(skill.name);
-
-		const Icon = () => {
-			switch (iconKey) {
-				case "react":
-					return (
-						<img src={reactLogo} alt="React" aria-hidden="true" />
-					);
-				case "javascript":
-					return (
-						<img src={jsLogo} alt="JavaScript" aria-hidden="true" />
-					);
-				case "htmlcss":
-					return (
-						<img
-							src={htmlLogo}
-							alt="HTML & CSS"
-							aria-hidden="true"
-						/>
-					);
-				case "tailwindcss":
-					return (
-						<img
-							src={tailwindLogo}
-							alt="Tailwind CSS"
-							aria-hidden="true"
-						/>
-					);
-				case "nodejs":
-					return (
-						<img src={nodeLogo} alt="Node.js" aria-hidden="true" />
-					);
-				case "express":
-					return (
-						<img
-							src={expressLogo}
-							alt="Express"
-							aria-hidden="true"
-						/>
-					);
-				case "mongodb":
-					return (
-						<img src={mongoLogo} alt="MongoDB" aria-hidden="true" />
-					);
-				case "mysql":
-					return (
-						<img src={mysqlLogo} alt="MySQL" aria-hidden="true" />
-					);
-				case "gitgithub":
-					return <img src={ghLogo} alt="GitHub" aria-hidden="true" />;
-				case "vscode":
-					return (
-						<img
-							src={vscodeLogo}
-							alt="VS Code"
-							aria-hidden="true"
-						/>
-					);
-				default:
-					return null;
-			}
-		};
-
-		return (
-			<article
-				ref={nodeRef}
-				role="listitem"
-				key={skill.name + idx}
-				className="bg-card p-5 rounded-lg shadow-xl card-hover flex flex-col justify-between gap-4"
-				style={{
-					opacity: 0,
-					animation: "fade-in 0.6s ease-out forwards",
-					animationDelay: `${idx * 80}ms`,
-				}}
-			>
-				<div className="flex items-center gap-4">
-					<div className="skill-initial flex-none">
-						{Icon() || (
-							<span className="text-sm font-medium">
-								{initials}
-							</span>
-						)}
-					</div>
-
-					<div className="min-w-0">
-						<h3 className="font-semibold text-lg truncate">
-							{skill.name}
-						</h3>
-						<div className="mt-1">
-							<span className="skill-badge text-xs">
-								{skill.category}
-							</span>
-						</div>
-					</div>
-				</div>
-
-				<div>
-					<div
-						className="w-full bg-secondary/20 h-3 rounded-full overflow-hidden skill-progress-outer"
-						role="progressbar"
-						aria-valuemin={0}
-						aria-valuemax={100}
-						aria-valuenow={skill.level}
-						aria-label={`${skill.name} proficiency`}
-					>
-						<div
-							className="skill-progress h-3 rounded-full"
-							style={{ width: fill ? skill.level + "%" : "0%" }}
-						/>
-					</div>
-
-					<div className="flex justify-between items-center mt-2 text-sm text-muted-foreground">
-						<span className="text-xs">Proficiency</span>
-						<span className="font-medium">{display}%</span>
-					</div>
-				</div>
-			</article>
-		);
-	}
-
-	return (
-		<section id="skills" className="py-24 px-4 relative bg-secondary/30">
-			<div className="container mx-auto max-w-5xl">
-				<h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-					My <span className="text-primary"> Skills</span>
-				</h2>
-
-				<div
-					ref={categoriesRef}
-					onKeyDown={handleCategoryKeyDown}
-					role="tablist"
-					aria-label="Skill categories"
-					className="flex flex-wrap justify-center gap-4 mb-12"
-				>
-					{categories.map((category, key) => {
-						const active = activeCategory === category;
-						const btnClass = `category-button py-2 px-5 rounded-full transition-colors duration-300 capitalize ${
-							active
-								? "bg-primary text-primary-foreground"
-								: "bg-secondary/70 text-foreground hover:bg-secondary"
-						}`;
-						return (
-							<button
-								key={key}
-								onClick={() => setActiveCategory(category)}
-								aria-pressed={active}
-								className={btnClass}
-							>
-								{category}
-							</button>
-						);
-					})}
-				</div>
-
-				<div
-					className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-					role="list"
-				>
-					{filteredSkills.map((skill, idx) => (
-						<SkillCard
-							key={skill.name + idx}
-							skill={skill}
-							idx={idx}
-						/>
-					))}
-				</div>
-			</div>
-		</section>
-	);
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none rounded-2xl bg-gradient-to-t from-primary/10 via-transparent to-transparent" />
+    </motion.div>
+  );
 };
 
 export default SkillsSection;
