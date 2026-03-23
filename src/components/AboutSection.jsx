@@ -5,6 +5,7 @@ import {
 	SiReact, SiNodedotjs, SiMongodb, SiPython, SiJavascript,
 } from "react-icons/si";
 import { SiThreedotjs } from "react-icons/si";
+import ResumeButton from "./ResumeButton";
 
 const containerVariants = {
 	hidden: {},
@@ -207,14 +208,11 @@ const AboutSection = () => {
 
 						{/* CTAs */}
 						<motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3 pt-2">
-							<a href="#contact" className="cosmic-button gap-2 text-sm">
+							<a href="#contact" className="cosmic-button gap-2 text-sm justify-center">
 								<Mail size={15} />
 								Get In Touch
 							</a>
-							<a href="/MyResume.pdf" download="Nitin-Verma-Resume.pdf" className="outline-button gap-2 text-sm">
-								<Download size={15} />
-								Resume
-							</a>
+							<ResumeButton className="w-full sm:w-auto h-[48px]" />
 						</motion.div>
 					</motion.div>
 

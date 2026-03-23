@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { MapPin, Code2, Sparkles, Github, Linkedin, Twitter } from "lucide-react";
 import profileImg from "../assets/icons/profile.png";
+import ResumeButton from "./ResumeButton";
 
 const HeroProfile = ({ isDark }) => {
 	const containerRef = useRef(null);
@@ -157,8 +158,10 @@ const HeroProfile = ({ isDark }) => {
 						</li>
 					</ul>
 
-					{/* Socials */}
-					<div className="flex items-center justify-center md:justify-start gap-3 mt-auto">
+					{/* Actions & Socials */}
+					<div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mt-auto pt-2">
+                        <ResumeButton className="!px-6 !py-2 h-[42px] w-full sm:w-auto" />
+						<div className="flex gap-3">
 						{[
 							{ icon: Github, href: "https://github.com/45NitinVerma", "label": "GitHub" },
 							{ icon: Linkedin, href: "https://www.linkedin.com/in/45nitinverma", "label": "LinkedIn" },
@@ -175,6 +178,7 @@ const HeroProfile = ({ isDark }) => {
 								<Icon size={18} />
 							</a>
 						))}
+						</div>
 					</div>
 				</div>
 			</motion.div>

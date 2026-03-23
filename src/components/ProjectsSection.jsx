@@ -89,12 +89,12 @@ const ProjectModal = ({ project, onClose }) => {
 				</button>
 
 				{/* Left side: Image and Links */}
-				<div className="md:w-1/2 p-6 md:p-10 flex flex-col gap-8 bg-muted/20 border-r border-border/40">
-					<div className="relative md:aspect-auto md:flex-1 rounded-xl overflow-hidden shadow-sm border border-border/50 bg-muted/30 min-h-[250px] flex items-center justify-center p-4">
+				<div className="md:w-1/2 p-5 md:p-10 flex flex-col gap-6 md:gap-8 bg-muted/20 border-b md:border-b-0 md:border-r border-border/40">
+					<div className="relative md:aspect-auto md:flex-1 rounded-xl overflow-hidden shadow-sm border border-border/50 bg-muted/30 min-h-[200px] md:min-h-[250px] flex items-center justify-center p-4">
 						<img
 							src={project.image}
 							alt={project.title}
-							className="absolute inset-0 w-full h-full object-contain p-4 md:p-6"
+							className="absolute inset-0 w-full h-full object-contain p-3 md:p-6"
 						/>
 					</div>
 
@@ -124,11 +124,11 @@ const ProjectModal = ({ project, onClose }) => {
 				</div>
 
 				{/* Right side: Details */}
-				<div className="md:w-1/2 p-6 md:p-12 flex flex-col justify-center">
-					<h3 className="text-3xl md:text-5xl font-black mb-3 tracking-tighter text-foreground">
+				<div className="md:w-1/2 p-5 md:p-12 flex flex-col justify-center">
+					<h3 className="text-2xl md:text-5xl font-black mb-2 md:mb-3 tracking-tighter text-foreground">
 						{project.title}
 					</h3>
-					<p className="text-xl text-muted-foreground font-medium mb-8">
+					<p className="text-lg md:text-xl text-muted-foreground font-medium mb-6 md:mb-8">
 						{project.subtitle}
 					</p>
 
@@ -191,7 +191,7 @@ const ProjectCard = ({ project, onHover, onClick }) => {
 			onMouseLeave={handleMouseLeave}
 			onClick={() => onClick(project)}
 		>
-			<div className="p-4 md:p-5 pb-0">
+			<div className="p-3 md:p-5 pb-0">
 				<div className="relative overflow-hidden rounded-2xl border border-border/40 bg-muted/30 aspect-video flex items-center justify-center">
 					<img
 						src={project.image}
@@ -202,8 +202,8 @@ const ProjectCard = ({ project, onHover, onClick }) => {
 					<div className="absolute inset-0 bg-background/5 transition-opacity duration-500 group-hover:opacity-0" />
 				</div>
 			</div>
-			<div className="p-6 md:p-8 flex flex-col flex-1 justify-center">
-				<h3 className="text-2xl md:text-3xl font-black tracking-tight mb-2 text-foreground group-hover:text-primary transition-colors">
+			<div className="p-5 md:p-8 flex flex-col flex-1 justify-center">
+				<h3 className="text-xl md:text-3xl font-black tracking-tight mb-2 text-foreground group-hover:text-primary transition-colors">
 					{project.title}
 				</h3>
 				<p className="text-base text-muted-foreground font-medium line-clamp-2">

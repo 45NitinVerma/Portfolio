@@ -54,7 +54,7 @@ const ModeToggle = ({ mode, setMode }) => {
 							mode === id ? "hsl(var(--primary))" : "transparent",
 						color:
 							mode === id
-								? "#fff"
+								? "hsl(var(--primary-foreground))"
 								: "hsl(var(--muted-foreground))",
 						boxShadow:
 							mode === id
@@ -186,11 +186,11 @@ const HeroSection = () => {
 
 					{/* Name */}
 					<motion.div variants={itemVariants}>
-						<h1 className="text-6xl md:text-7xl lg:text-[6rem] font-black tracking-tighter leading-[1.05] drop-shadow-sm">
+						<h1 className="text-5xl md:text-7xl lg:text-[6rem] font-black tracking-tighter leading-[1.05] drop-shadow-sm">
 							<span className="block text-foreground pb-2">
 								Nitin Verma.
 							</span>
-							<span className="block text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-gradient opacity-90">
+							<span className="block text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-gradient opacity-90">
 								Full Stack Developer
 							</span>
 						</h1>
@@ -203,11 +203,7 @@ const HeroSection = () => {
 					>
 						<span>I build</span>
 						<span
-							className="text-foreground font-semibold"
-							style={{
-								minWidth: "260px",
-								display: "inline-block",
-							}}
+							className="text-foreground font-semibold min-w-full sm:min-w-[260px] inline-block text-center sm:text-left"
 						>
 							<TypeAnimation
 								sequence={[
@@ -245,23 +241,15 @@ const HeroSection = () => {
 					{/* CTAs */}
 					<motion.div
 						variants={itemVariants}
-						className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 pt-4"
+						className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4 w-full"
 					>
 						<a
 							href="#projects"
 							onClick={scrollToProjects}
-							className="cosmic-button gap-2 text-sm px-8 py-3.5 shadow-lg"
+							className="cosmic-button gap-2 text-sm px-8 py-3.5 shadow-lg w-full sm:w-auto justify-center"
 						>
 							<Eye size={16} />
 							View My Work
-						</a>
-						<a
-							href="/MyResume.pdf"
-							download="Nitin-Verma-Resume.pdf"
-							className="outline-button gap-2 text-sm px-8 py-3.5 backdrop-blur-sm"
-						>
-							<Download size={16} />
-							Download Resume
 						</a>
 					</motion.div>
 
@@ -291,7 +279,7 @@ const HeroSection = () => {
 				</motion.div>
 
 				{/* Right — 3D scene / terminal (hidden on mobile) */}
-				<div className="flex-1 hidden lg:flex flex-col items-center gap-4 z-10">
+				<div className="flex-1  lg:flex flex-col items-center gap-4 z-10">
 					{/* Mode toggle */}
 					<ModeToggle mode={mode} setMode={setMode} />
 
@@ -319,30 +307,6 @@ const HeroSection = () => {
 									className="w-full h-full flex items-center justify-center"
 								>
 									<TerminalMode />
-								</motion.div>
-							)}
-						</AnimatePresence>
-					</div>
-				</div>
-
-				{/* Mobile-only: terminal card (simplified) */}
-				<div className="lg:hidden w-full z-10">
-					<ModeToggle mode={mode} setMode={setMode} />
-					<div className="mt-4">
-						<AnimatePresence mode="wait">
-							{mode === "terminal" ? (
-								<TerminalMode key="terminal-mobile" />
-							) : (
-								<motion.div
-									key="profile-mobile"
-									initial={{ opacity: 0 }}
-									animate={{ opacity: 1 }}
-									exit={{ opacity: 0 }}
-									className="text-center text-sm text-muted-foreground py-3"
-								>
-									<span className="text-xs opacity-60">
-										3D view available on desktop
-									</span>
 								</motion.div>
 							)}
 						</AnimatePresence>

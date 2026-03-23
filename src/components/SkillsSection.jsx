@@ -82,7 +82,7 @@ const BentoBox = ({ title, category, description, delay }) => {
 			transition={{ delay, duration: 0.7, ease: [0.2, 0.85, 0.25, 1] }}
             onMouseMove={onMouseMove}
             onMouseLeave={onMouseLeave}
-			className="relative overflow-hidden rounded-3xl p-8 border border-border/40 shadow-sm bg-card hover:shadow-xl hover:border-primary/20 transition-all duration-500 group"
+			className="relative overflow-hidden rounded-3xl p-6 md:p-8 border border-border/40 shadow-sm bg-card hover:shadow-xl hover:border-primary/20 transition-all duration-500 group"
 			style={{ 
                 transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
                 transition: tilt.x === 0 && tilt.y === 0 ? "transform 0.5s ease" : "none",
@@ -99,7 +99,7 @@ const BentoBox = ({ title, category, description, delay }) => {
 					</p>
 				</div>
 
-				<div className="flex-1 flex flex-wrap content-start gap-3">
+				<div className="flex-1 flex flex-wrap content-start gap-2 md:gap-3">
 					{skills.map((skill, index) => (
 						<SkillChip key={skill.name} skill={skill} index={index} />
 					))}

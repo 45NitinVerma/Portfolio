@@ -124,7 +124,7 @@ export const Navbar = () => {
 			{/* Mobile sidebar */}
 			{isMenuOpen && (
 				<div
-					className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+					className="fixed inset-0 bg-black/50 backdrop-blur-md z-40 md:hidden"
 					onClick={() => setIsMenuOpen(false)}
 				/>
 			)}
@@ -142,7 +142,7 @@ export const Navbar = () => {
 						<X size={18} />
 					</button>
 				</div>
-				<nav className="px-5 py-6 flex flex-col gap-1">
+				<nav className="px-4 py-6 flex flex-col gap-2">
 					{navItems.map((item) => {
 						const isActive = activeSection === item.href;
 						return (
